@@ -27,6 +27,9 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
   },
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval"
+  },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
