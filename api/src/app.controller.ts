@@ -22,6 +22,11 @@ export class AppController {
   }
 
   @Get()
+  getHello(): string {
+    return 'Hello World!';
+  }
+
+  @Get('/health')
   @HealthCheck()
   async checkHealth(): Promise<HealthCheckResult> {
     return this.healthCheckService.check([
