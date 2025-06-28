@@ -5,13 +5,15 @@ import { PinoLogger } from 'nestjs-pino';
 export class LoggerService implements NestLoggerService {
   constructor(private readonly logger: PinoLogger) {}
 
+  public setContext(context: string): void {
+    this.logger.setContext(context);
+  }
+
   public log(message: string): void {
     this.logger.info(message);
   }
 
-  public error(
-    message: string,
-  ): void {
+  public error(message: string): void {
     this.logger.error(message);
   }
 
