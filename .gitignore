@@ -130,6 +130,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-./frontend/.env
-./api/.env
-./api/.env.copy
+frontend/.env
+.env.copy
+.pnpm-store/
+.idea
