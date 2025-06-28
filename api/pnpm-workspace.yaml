@@ -1,2 +1,6 @@
 ignoredBuiltDependencies:
   - nestjs-pino
+
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@swc/core'

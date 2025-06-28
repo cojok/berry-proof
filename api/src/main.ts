@@ -17,7 +17,9 @@ async function bootstrap(): Promise<void> {
 
   // Enable CORS based on config
   const configService = app.get(ConfigService);
-  app.enableCors({ origin: configService.corsOrigins });
+  console.log(configService.corsOrigins);
+  // app.enableCors({ origin: configService.corsOrigins });
+  app.enableCors({ origin: '*' });
 
   // Global Zod validation
   app.useGlobalPipes(new ZodValidationPipe());

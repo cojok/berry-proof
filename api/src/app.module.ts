@@ -7,8 +7,6 @@ import {
 import { AppConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { LoggerModule as PinoLogger } from 'nestjs-pino';
-import { LoggerModule } from './common/logger/logger.module';
 import { ZodValidationPipe } from './common/pipes/zod-validation/zod-validation.pipe';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { TypeOrmExceptionFilter } from './common/filters/typeorm-exception/typeorm-exception.filter';
@@ -17,11 +15,13 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { TerminusModule, TypeOrmHealthIndicator } from '@nestjs/terminus';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TerminusModule,
     AppConfigModule,
+    AuthModule,
     TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
       inject: [ConfigService],
@@ -36,12 +36,6 @@ import { TerminusModule, TypeOrmHealthIndicator } from '@nestjs/terminus';
         synchronize: cfg.nodeEnv === 'development',
       }),
     }),
-    PinoLogger.forRootAsync({
-      imports: [AppConfigModule],
-      inject: [ConfigService],
-      useFactory: (cfg: ConfigService) => cfg.loggerConfig,
-    }),
-    LoggerModule,
   ],
   controllers: [AppController],
   providers: [

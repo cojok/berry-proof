@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-import { EnvConfig } from './config.schema';
+import { EnvConfig, NodeEnv } from './config.schema';
 import crypto from 'crypto';
 import process from 'process';
 import { Params as PinoHttpParams } from 'nestjs-pino';
@@ -10,34 +10,34 @@ import { Request } from 'express';
 export class ConfigService {
   constructor(private readonly cs: NestConfigService<EnvConfig>) {}
 
-  get nodeEnv(): string | undefined {
-    return this.cs.get('NODE_ENV');
+  get nodeEnv(): NodeEnv {
+    return this.cs.getOrThrow<NodeEnv>('NODE_ENV');
   }
-  get port(): number | undefined {
-    return Number(this.cs.get('PORT'));
-  }
-
-  get dbHost(): string | undefined {
-    return this.cs.get('DB_HOST');
-  }
-  get dbPort(): number | undefined {
-    return Number(this.cs.get('DB_PORT'));
-  }
-  get dbUser(): string | undefined {
-    return this.cs.get('DB_USER');
-  }
-  get dbPassword(): string | undefined {
-    return this.cs.get('DB_PASSWORD');
-  }
-  get dbName(): string | undefined {
-    return this.cs.get('DB_NAME');
+  get port(): number {
+    return this.cs.getOrThrow<number>('PORT');
   }
 
-  get logLevel(): string | undefined {
-    return this.cs.get('LOG_LEVEL');
+  get dbHost(): string {
+    return this.cs.getOrThrow<string>('DB_HOST');
   }
-  get corsOrigins(): string[] | undefined {
-    return (this.cs.get('CORS_ORIGINS') as string).split(',');
+  get dbPort(): number {
+    return this.cs.getOrThrow<number>('DB_PORT');
+  }
+  get dbUser(): string {
+    return this.cs.getOrThrow<string>('DB_USER');
+  }
+  get dbPassword(): string {
+    return this.cs.getOrThrow<string>('DB_PASSWORD');
+  }
+  get dbName(): string {
+    return this.cs.getOrThrow<string>('DB_NAME');
+  }
+
+  get logLevel(): string {
+    return this.cs.getOrThrow<string>('LOG_LEVEL');
+  }
+  get corsOrigins(): string[] {
+    return this.cs.getOrThrow<string>('CORS_ORIGINS').split(',');
   }
 
   get loggerConfig(): PinoHttpParams {
@@ -63,7 +63,7 @@ export class ConfigService {
       pinoHttp: {
         mixin: () => ({ traceId: crypto.randomUUID(), pid: process.pid }),
         name: 'berry-nest',
-        level: this.cs.get<string>('LOG_LEVEL'),
+        level: this.logLevel,
         timestamp: () => `,"time":"${new Date().toISOString()}"`,
         redact: ['req.headers.authorization', 'password'],
         serializers: {
@@ -78,5 +78,33 @@ export class ConfigService {
         },
       },
     } as const;
+  }
+
+  get auth0Domain(): string | undefined {
+    return this.cs.getOrThrow('AUTH0_DOMAIN');
+  }
+
+  get auth0Audience(): string | undefined {
+    return this.cs.getOrThrow('AUTH0_AUDIENCE');
+  }
+
+  get jwtExpiration(): number {
+    return this.cs.getOrThrow<number>('JWT_EXPIRATION') ?? 3600;
+  }
+
+  get jwtSecret(): string {
+    const secret = this.cs.get<string>('JWT_SECRET');
+    if (!secret || (secret === 'secret' && this.nodeEnv !== 'development')) {
+      throw new Error('JWT_SECRET must be set to a secure value in production');
+    }
+    return secret;
+  }
+
+  get apiRateLimitTimeWindow(): number {
+    return this.cs.getOrThrow<number>('RATE_LIMIT_TIME_WINDOW');
+  }
+
+  get apiRateLimitMax(): number {
+    return this.cs.getOrThrow<number>('RATE_LIMIT_MAX');
   }
 }

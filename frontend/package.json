@@ -17,6 +17,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^2.2.0",
     "@pinia/colada": "^0.17.1",
     "pinia": "^3.0.3",
     "pinia-orm": "^1.10.2",
