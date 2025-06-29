@@ -1,25 +1,19 @@
 import {
-  Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ITenant } from '../common/interfaces';
 
-@Entity()
-export class Tenant implements ITenant {
+export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
-  name!: string;
+  @Column({ type: 'uuid' })
+  tenantId!: string;
 
-  @Column({ unique: true })
-  subdomain!: string;
-
-  @Column({ default: false })
-  isDeleted: boolean = false;
+  @Column({ type: 'uuid', nullable: true })
+  companyId?: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

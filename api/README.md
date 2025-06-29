@@ -25,6 +25,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Core Entities
+
+All data models live in `src/entities` and are paired with strict TypeScript
+interfaces in `src/common/interfaces`. Most models extend the shared
+`BaseEntity` found at `src/common/entities/BaseEntity.ts`, which provides
+`id`, `tenantId`, optional `companyId`, and timestamp columns. Every entity must
+implement its corresponding interface to keep typing strict across the project.
+
 ## Project setup
 
 ```bash
@@ -71,6 +79,16 @@ $ pnpm run migration:run
 # revert the last migration
 $ pnpm run migration:revert
 ```
+
+### Seeding initial roles
+
+After running migrations, seed the default system roles with:
+
+```bash
+$ pnpm run seed
+```
+
+Set `SEED_TENANT_ID` in your environment to associate the roles with a tenant.
 
 Development follows a trunk-based workflow. Create feature branches from `main`
 and use [Conventional Commits](https://www.conventionalcommits.org/) for commit
