@@ -57,6 +57,25 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Database migrations
+
+Use pnpm scripts to manage TypeORM migrations:
+
+```bash
+# generate a migration
+$ pnpm run migration:generate -- <name>
+
+# run pending migrations
+$ pnpm run migration:run
+
+# revert the last migration
+$ pnpm run migration:revert
+```
+
+Development follows a trunk-based workflow. Create feature branches from `main`
+and use [Conventional Commits](https://www.conventionalcommits.org/) for commit
+messages, e.g. `feat/migrations-initial-setup`.
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
