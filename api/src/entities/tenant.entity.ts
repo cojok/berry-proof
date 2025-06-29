@@ -8,6 +8,12 @@ export class Tenant {
   @Column()
   name!: string;
 
+  @Column({ unique: true })
+  subdomain!: string;
+
+  @Column()
+  isDeleted: boolean = false;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 

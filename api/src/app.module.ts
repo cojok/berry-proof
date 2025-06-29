@@ -35,7 +35,7 @@ import { AuthModule } from './auth/auth.module';
         database: cfg.dbName,
         entities: [__dirname + '/**/*.entity.{ts,js}'],
         namingStrategy: new CustomSnakeNamingStrategy(),
-        synchronize: false,
+        synchronize: cfg.nodeEnv === 'development',
       }),
     }),
   ],
