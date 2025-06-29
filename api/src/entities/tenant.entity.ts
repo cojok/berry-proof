@@ -1,18 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Index,
+} from 'typeorm';
+import { ITenant, TenantStatus } from '../common/interfaces';
 
 @Entity()
-export class Tenant {
+export class Tenant implements ITenant {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
+  @Index({ unique: true })
   name!: string;
 
-  @Column({ unique: true })
-  subdomain!: string;
+  @Column({ nullable: true })
+  @Index({ unique: true })
+  subdomain?: string | null;
 
-  @Column()
-  isDeleted: boolean = false;
+  @Column({ type: 'enum', enum: TenantStatus, default: TenantStatus.Active })
+  status!: TenantStatus;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
