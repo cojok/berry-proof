@@ -4,8 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
-import { ITenant } from '../common/interfaces';
+import { ITenant, TenantStatus } from '../common/interfaces';
 
 @Entity()
 export class Tenant implements ITenant {
@@ -13,13 +14,15 @@ export class Tenant implements ITenant {
   id!: string;
 
   @Column()
+  @Index({ unique: true })
   name!: string;
 
-  @Column({ unique: true })
-  subdomain!: string;
+  @Column({ nullable: true })
+  @Index({ unique: true })
+  subdomain?: string | null;
 
-  @Column({ default: false })
-  isDeleted: boolean = false;
+  @Column({ type: 'enum', enum: TenantStatus, default: TenantStatus.Active })
+  status!: TenantStatus;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

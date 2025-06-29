@@ -1,8 +1,12 @@
 export interface ICompany {
   id: string;
   tenantId: string;
-  companyId?: string | null;
   name: string;
+  phone?: string | null;
+  address?: string | null;
+  contactEmail?: string | null;
+  isOwner: boolean;
+  isAdminUserCreated: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -10,7 +10,7 @@ async function seed(): Promise<void> {
   for (const name of roles) {
     const exists = await repo.findOne({ where: { name } });
     if (!exists) {
-      await repo.save(repo.create({ name, tenantId }));
+      await repo.save(repo.create({ name, tenantId, isSystemRole: true }));
     }
   }
   await AppDataSource.destroy();

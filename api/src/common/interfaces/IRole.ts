@@ -1,8 +1,10 @@
 export interface IRole {
   id: string;
   tenantId: string;
-  companyId?: string | null;
   name: string;
+  description?: string | null;
+  permissions?: unknown;
+  isSystemRole: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
