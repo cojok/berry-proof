@@ -91,9 +91,41 @@ export class UpdateCoreEntities1751233944851 implements MigrationInterface {
     await queryRunner.query(
       `CREATE UNIQUE INDEX "IDX_user_email" ON "user" ("email")`,
     );
+
+    // foreign keys
+    await queryRunner.query(
+      `ALTER TABLE "company" ADD CONSTRAINT "FK_company_tenant" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "department" ADD CONSTRAINT "FK_department_company" FOREIGN KEY ("company_id") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "role" ADD CONSTRAINT "FK_role_tenant" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD CONSTRAINT "FK_user_tenant" FOREIGN KEY ("tenant_id") REFERENCES "tenant"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD CONSTRAINT "FK_user_company" FOREIGN KEY ("company_id") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD CONSTRAINT "FK_user_department" FOREIGN KEY ("department_id") REFERENCES "department"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD CONSTRAINT "FK_user_role" FOREIGN KEY ("role_id") REFERENCES "role"("id") ON DELETE CASCADE ON UPDATE NO ACTION`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    // drop foreign keys
+    await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_user_role"`);
+    await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_user_department"`);
+    await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_user_company"`);
+    await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_user_tenant"`);
+    await queryRunner.query(`ALTER TABLE "role" DROP CONSTRAINT "FK_role_tenant"`);
+    await queryRunner.query(`ALTER TABLE "department" DROP CONSTRAINT "FK_department_company"`);
+    await queryRunner.query(`ALTER TABLE "company" DROP CONSTRAINT "FK_company_tenant"`);
+
     await queryRunner.query(`DROP INDEX "IDX_user_email"`);
     await queryRunner.query(
       `ALTER TABLE "user" ALTER COLUMN "company_id" DROP NOT NULL`,
