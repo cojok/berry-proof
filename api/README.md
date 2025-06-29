@@ -29,9 +29,9 @@
 
 All data models live in `src/entities` and are paired with strict TypeScript
 interfaces in `src/common/interfaces`. Most models extend the shared
-`BaseEntity` found at `src/common/entities/BaseEntity.ts`, which provides
-`id`, `tenantId`, optional `companyId`, and timestamp columns. Every entity must
-implement its corresponding interface to keep typing strict across the project.
+`BaseEntity` found at `src/common/entities/BaseEntity.ts`, which provides an
+auto-generated `id` and timestamp columns. Every entity must implement its
+corresponding interface to keep typing strict across the project.
 
 ## Project setup
 

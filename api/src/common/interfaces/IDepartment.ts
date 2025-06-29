@@ -1,7 +1,6 @@
 export interface IDepartment {
   id: string;
-  tenantId: string;
-  companyId?: string | null;
+  companyId: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;

@@ -1,13 +1,19 @@
-import { IRole } from './IRole';
+export enum UserStatus {
+  Active = 'active',
+  Suspended = 'suspended',
+}
 
 export interface IUser {
   id: string;
   tenantId: string;
-  companyId?: string | null;
+  companyId: string;
+  departmentId: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  roles?: IRole[];
+  fullName: string;
+  roleId: string;
+  status: UserStatus;
+  isDeleted: boolean;
+  auth0UserId: string;
   createdAt: Date;
   updatedAt: Date;
 }
