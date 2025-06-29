@@ -4,6 +4,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { CustomSnakeNamingStrategy } from './common/helpers';
 import { AppConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -33,7 +34,8 @@ import { AuthModule } from './auth/auth.module';
         password: cfg.dbPassword,
         database: cfg.dbName,
         entities: [__dirname + '/**/*.entity.{ts,js}'],
-        synchronize: cfg.nodeEnv === 'development',
+        namingStrategy: new CustomSnakeNamingStrategy(),
+        synchronize: false,
       }),
     }),
   ],
