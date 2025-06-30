@@ -11,12 +11,12 @@ export class Role extends BaseEntity implements IRole {
   @Column()
   name!: string;
 
-  @Column({ nullable: true })
-  description?: string | null;
+  @Column('varchar', { nullable: true })
+  description!: string | null;
 
   @Column('jsonb', { nullable: true })
-  permissions?: unknown;
+  permissions!: unknown;
 
-  @Column({ name: 'is_system_role', default: false })
+  @Column('bool', { name: 'is_system_role', default: false })
   isSystemRole = false;
 }

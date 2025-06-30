@@ -17,9 +17,9 @@ export class Tenant implements ITenant {
   @Index({ unique: true })
   name!: string;
 
-  @Column({ nullable: true })
+  @Column('varchar', { nullable: true })
   @Index({ unique: true })
-  subdomain?: string | null;
+  subdomain!: string | null;
 
   @Column({ type: 'enum', enum: TenantStatus, default: TenantStatus.Active })
   status!: TenantStatus;

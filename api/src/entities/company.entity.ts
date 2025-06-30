@@ -15,18 +15,18 @@ export class Company extends BaseEntity implements ICompany {
   @Column()
   name!: string;
 
-  @Column({ nullable: true })
+  @Column('varchar', { nullable: true })
   phone?: string | null;
 
-  @Column({ nullable: true })
+  @Column('varchar', { nullable: true })
   address?: string | null;
 
-  @Column({ name: 'contact_email', nullable: true })
+  @Column('varchar', { name: 'contact_email', nullable: true })
   contactEmail?: string | null;
 
-  @Column({ name: 'is_owner', default: false })
+  @Column('bool', { name: 'is_owner', default: false })
   isOwner = false;
 
-  @Column({ name: 'is_admin_user_created', default: false })
+  @Column('bool', { name: 'is_admin_user_created', default: false })
   isAdminUserCreated = false;
 }
