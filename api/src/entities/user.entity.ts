@@ -26,7 +26,7 @@ export class User extends BaseEntity implements IUser {
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.Active })
   status!: UserStatus;
 
-  @Column({ name: 'is_deleted', default: false })
+  @Column('bool', { name: 'is_deleted', default: false })
   isDeleted = false;
 
   @Column({ name: 'auth0_user_id' })
